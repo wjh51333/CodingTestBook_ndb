@@ -1,9 +1,11 @@
-/* 그리디
+/* 
+ * 그리디
  * 큰 수의 법칙
  */
 
 #include <iostream>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
 int main()
@@ -15,36 +17,24 @@ int main()
 	int N, M, K;
 	cin >> N >> M >> K;
 
-	vector<pair<int, int>> arr;
-	for (int i = 0; i < N; i++) {
-		int n;
-		cin >> n;
-		arr.push_back(make_pair(n, 0));
-	}
+	vector<int> arr(N);
+	for (int i = 0; i < N; i++)
+		cin >> arr[i];
 
+	// 입력받은 수 정렬
+	sort(arr.begin(), arr.end(), greater<int>());
+	
+	int first = arr[0]; // 가장 큰 수
+	int second = arr[1]; // 두 번째로 큰 수
+	
+	// 가장 큰 수가 더해지는 횟수 계산
+	int cnt = (M / (K + 1)) * K;
+	cnt += M % (K + 1);
 
-	int sum = 0;
-	int lastIndex = 0;
-	for (int i = 0; i < M; i++) {
-		int max = arr[0].first;
-		int index = 0;
+	int answer = 0;
+	answer += cnt * first; // 가장 큰 수 더하기
+	answer += (M - cnt) * second; // 두 번째로 큰 수 더하기
 
-		for (int j = 1; j < N; j++) {
-			if (arr[j].first > max && arr[j].second < K) {
-				max = arr[j].first;
-				index = j;
-			}
-		}
-
-		sum += arr[index].first;
-		arr[index].second++;
-
-		if (lastIndex != index) {
-			arr[lastIndex].second = 0;
-			lastIndex = index;
-		}
-	}
-	cout << sum;
-
+	cout << answer;
 	return 0;
 }
