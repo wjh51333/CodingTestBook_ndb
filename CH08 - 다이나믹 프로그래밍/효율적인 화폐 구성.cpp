@@ -10,7 +10,7 @@
 using namespace std;
 
 int arr[MAX];
-int dp[MAX];
+int dp[10001];
 
 int main()
 {
